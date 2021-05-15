@@ -1,7 +1,85 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Row, Col, Container } from "react-bootstrap";
+import { Chart } from "react-google-charts";
+import { ListCountries } from "../actions/countryActions";
+import Loader from "./Loader";
+import Message from "./Message";
 
-const Country = () => {
-  return <></>;
+const Country = ({ match }) => {
+  const countryname = match.params.countryname;
+
+  const dispatch = useDispatch();
+  const countryList = useSelector((state) => state.countryList);
+  const { loading, error, countries } = countryList;
+
+  var data = [];
+
+  data = [["Year", "Value"]];
+  const getYears = () => {
+    var year = 2019;
+    for (let k = 0; k < countries.length; k++) {
+      //console.log(year + " = " + countries[k][year]);
+      // console.log(countries[k]["Country Name"]);
+      if (countries[k]["Country Name"] === countryname) {
+        // data["Country Name"] = countryname;
+        // data["Indicator Name"] = countries[k]["Indicator Name"];
+        // data["Country Code"] = countries[k]["Country Code"];
+        for (let i = 0; i < 20; i++) {
+          //console.log(year + " = " + countries[k][year]);
+          data.push([year, parseInt(countries[k][year])]);
+
+          year--;
+        }
+        console.log(data["Country Code"]);
+        return;
+      }
+    }
+  };
+
+  useEffect(() => {
+    dispatch(ListCountries());
+    getYears();
+  }, [dispatch, getYears()]);
+
+  return (
+    <Container>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant="danger">{error}</Message>
+      ) : (
+        <>
+          <Row className="mt-4">
+            <Col>
+              <h2>Country Name: {countryname} </h2>
+              {/* <h4>Country Code : {data["Country Code"]} </h4> */}
+              <h5>Period : 1960 - 2020</h5>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Chart
+                width={"1200px"}
+                height={"500px"}
+                chartType="LineChart"
+                loader={<div>Loading Chart</div>}
+                data={data}
+                options={{
+                  hAxis: {
+                    title: "Time (years)",
+                  },
+                  vAxis: {
+                    title: "values",
+                  },
+                }}
+              />
+            </Col>
+          </Row>
+        </>
+      )}
+    </Container>
+  );
 };
 
 export default Country;

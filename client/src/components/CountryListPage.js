@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { Row, Col, Table, Container, Button } from "react-bootstrap";
 import { ListCountries } from "../actions/countryActions";
 import Loader from "./Loader";
@@ -37,9 +38,6 @@ const CountryListPage = () => {
         <Col>
           <h2>Livestock Per Country</h2>
         </Col>
-        <Col>
-          <Button>List Years</Button>
-        </Col>
       </Row>
       <Row className="align-items-center mt-4">
         {loading ? (
@@ -52,21 +50,26 @@ const CountryListPage = () => {
               <thead>
                 <tr>
                   <th>Country Name</th>
-                  <th>Country Code</th>
-                  <th>Info</th>
-                  <th>Details</th>
+
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
                 {countries &&
-                  countries.map((country) => (
-                    <tr key={country["Country Name"]}>
-                      <td>{country["Country Name"]}</td>
-                      <td>{country["Country Code"]}</td>
-                      <td>{country["1998"]}</td>
-                      <td>{country["1998"]}</td>
-                    </tr>
-                  ))}
+                  countries.map((country) =>
+                    country["Country Name"] === "South Africa" || country["Country Name"] === "Tanzania" || country["Country Name"] === "Zimbabwe" ? (
+                      <tr key={country["Country Name"]}>
+                        <td>{country["Country Name"]}</td>
+                        <td>
+                          <Link to={`/country/${country["Country Name"]}`}>
+                            <Button variant="dark" className="btn-md">
+                              Details
+                            </Button>
+                          </Link>
+                        </td>
+                      </tr>
+                    ) : null
+                  )}
               </tbody>
             </Table>
           </Col>
