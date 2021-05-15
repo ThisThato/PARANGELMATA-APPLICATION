@@ -1,11 +1,5 @@
 import { COUNTRY_LIST_FAIL, COUNTRY_LIST_REQUEST, COUNTRY_LIST_SUCCESS } from "../constants/countryConstants";
 
-const initialState = {
-  loading: false,
-  countries: [],
-  error: "",
-};
-
 export const countryListReducer = (state = { countries: [] }, action) => {
   switch (action.type) {
     case COUNTRY_LIST_REQUEST:

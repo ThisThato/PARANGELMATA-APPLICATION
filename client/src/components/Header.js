@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Container } from "react-bootstrap";
 
 const Header = () => {
   return (
