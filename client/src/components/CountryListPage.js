@@ -51,13 +51,17 @@ const CountryListPage = () => {
                         <td>
                           {country["2018"] - country["2016"] > 0 ? (
                             <>
-                              <i className="fas fa-arrow-up m-3"></i>
-                              {(((country["2018"] - country["2016"]) / (country["2018"] + country["2016"])) * 100).toFixed(2)} %
+                              <Badge className="bg-success m-2">
+                                <i className="fas fa-arrow-up m-2"></i>
+                                {(((country["2018"] - country["2016"]) / (country["2018"] + country["2016"])) * 100).toFixed(2)} %
+                              </Badge>
                             </>
                           ) : (
                             <>
-                              <i className="fas fa-arrow-down m-3"></i>
-                              {(((country["2018"] - country["2016"]) / (country["2018"] + country["2016"])) * 100).toFixed(2)} %
+                              <Badge className="bg-danger m-2">
+                                <i className="fas fa-arrow-down m-2"></i>
+                                {(((country["2018"] - country["2016"]) / (country["2018"] + country["2016"])) * 100).toFixed(2)} %
+                              </Badge>
                             </>
                           )}
                         </td>

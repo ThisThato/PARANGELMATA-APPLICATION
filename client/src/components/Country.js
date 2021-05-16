@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Row, Col, Container, Button } from "react-bootstrap";
+import { Row, Col, Container, Button, Form } from "react-bootstrap";
 import { Chart } from "react-google-charts";
 import { ListCountries } from "../actions/countryActions";
 import Loader from "./Loader";
@@ -9,6 +9,8 @@ import Message from "./Message";
 
 const Country = ({ match }) => {
   const countryname = match.params.countryname;
+
+  const [period, setPeriod] = useState(0);
 
   const dispatch = useDispatch();
   const countryList = useSelector((state) => state.countryList);
@@ -19,17 +21,13 @@ const Country = ({ match }) => {
   data = [["Year", "LiveStock Production"]];
 
   const getYears = () => {
-    var year = 2021;
+    var year = 2018;
+    if (period === 0) setPeriod(parseInt(60));
+
     for (let k = 0; k < countries.length; k++) {
-      //console.log(year + " = " + countries[k][year]);
-      // console.log(countries[k]["Country Name"]);
       if (countries[k]["Country Name"] === countryname) {
-        // data["Country Name"] = countryname;
-        // data["Indicator Name"] = countries[k]["Indicator Name"];
-        // data["Country Code"] = countries[k]["Country Code"];
-        for (let i = 0; i < 20; i++) {
-          //console.log(year + " = " + countries[k][year]);
-          data.push([year, parseInt(countries[k][year])]);
+        for (let i = 0; i < period; i++) {
+          data.push([parseInt(year), parseInt(countries[k][year])]);
           year--;
         }
         console.log(data["Country Code"]);
@@ -43,6 +41,10 @@ const Country = ({ match }) => {
     getYears();
   }, [dispatch, getYears()]);
 
+  const submitHandler = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <Container>
       {loading ? (
@@ -54,8 +56,18 @@ const Country = ({ match }) => {
           <Row className="mt-4">
             <Col>
               <h2>Country Name: {countryname} </h2>
-              {/* <h4>Country Code : {data["Country Code"]} </h4> */}
-              <h5>Period : 2001 - 2020</h5>
+              <Form onSubmit={submitHandler} className="mt-3 mb-3">
+                <Form.Group controlId="period">
+                  <Form.Label>Select Period</Form.Label>
+                  <Form.Control as="select" value={period} onChange={(e) => setPeriod(parseInt(e.target.value))} style={{ width: "8rem" }}>
+                    <option value={2}>Past 2 Years</option>
+                    <option value={5}>Past 5 Years</option>
+                    <option value={10}>Past 10 Years</option>
+                    <option value={20}>Past 20 Years</option>
+                    <option value={60}>All Time</option>
+                  </Form.Control>
+                </Form.Group>
+              </Form>
             </Col>
             <Col>
               <Link to="/" style={{ float: "right", marginRight: "4rem", marginTop: "2rem" }}>
@@ -75,6 +87,11 @@ const Country = ({ match }) => {
                 loader={<div>Loading Chart</div>}
                 data={data}
                 options={{
+                  animation: {
+                    startup: true,
+                    easing: "linear",
+                    duration: 1500,
+                  },
                   hAxis: {
                     format: "",
                     title: "Time (years)",
@@ -87,9 +104,7 @@ const Country = ({ match }) => {
             </Col>
           </Row>
           <Row>
-            <Col>
-              <h3>Trend for the past 2 years</h3>
-            </Col>
+            <Col></Col>
           </Row>
         </>
       )}
