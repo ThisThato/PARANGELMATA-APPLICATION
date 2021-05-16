@@ -28,7 +28,7 @@ const Country = ({ match }) => {
 
     for (let k = 0; k < countries.length; k++) {
       if (countries[k]["Country Name"] === countryname) {
-        for (let i = 0; i < period; i++) {
+        for (let i = 0; i <= period; i++) {
           data.push([parseInt(year), parseInt(countries[k][year])]);
           year--;
         }
@@ -80,7 +80,7 @@ const Country = ({ match }) => {
               </Link>
             </Col>
           </Row>
-          <Row>
+          <Row style={{ marginBottom: "4rem" }}>
             <Col>
               <Chart
                 width={"100%"}
@@ -107,7 +107,7 @@ const Country = ({ match }) => {
           </Row>
           <Row>
             <Col>
-              <Table bordered hover responsive className="table-sm">
+              <Table bordered hover responsive className="table-sm  justify-center m-auto" style={{ width: "70%", textAlign: "center" }}>
                 {data.map((value, index) => {
                   {
                     return value[0] === "Year" ? (

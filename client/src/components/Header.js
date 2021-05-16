@@ -1,12 +1,15 @@
 import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
 import { Navbar, Container } from "react-bootstrap";
 
 const Header = () => {
   return (
     <Fragment>
-      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
+      <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-          <Navbar.Brand>PARANGELMATA</Navbar.Brand>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <Navbar.Brand>PARANGELMATA</Navbar.Brand>
+          </Link>
         </Container>
       </Navbar>
     </Fragment>
