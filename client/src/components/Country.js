@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Row, Col, Container, Button, Form } from "react-bootstrap";
+import { Row, Col, Table, Container, Button, Form } from "react-bootstrap";
 import { Chart } from "react-google-charts";
 import { ListCountries } from "../actions/countryActions";
 import Loader from "./Loader";
@@ -11,6 +11,8 @@ const Country = ({ match }) => {
   const countryname = match.params.countryname;
 
   const [period, setPeriod] = useState(0);
+
+  var n = 3;
 
   const dispatch = useDispatch();
   const countryList = useSelector((state) => state.countryList);
@@ -30,7 +32,7 @@ const Country = ({ match }) => {
           data.push([parseInt(year), parseInt(countries[k][year])]);
           year--;
         }
-        console.log(data["Country Code"]);
+        console.log(data);
         return;
       }
     }
@@ -104,7 +106,29 @@ const Country = ({ match }) => {
             </Col>
           </Row>
           <Row>
-            <Col></Col>
+            <Col>
+              <Table bordered hover responsive className="table-sm">
+                {data.map((value, index) => {
+                  {
+                    return value[0] === "Year" ? (
+                      <thead>
+                        <tr>
+                          <th key={index}>{value[0]}</th>
+                          <th key={index}>{value[1]}</th>
+                        </tr>
+                      </thead>
+                    ) : (
+                      <tbody>
+                        <tr>
+                          <td key={index}>{value[0]}</td>
+                          <td key={index}>{value[1]}</td>
+                        </tr>
+                      </tbody>
+                    );
+                  }
+                })}
+              </Table>
+            </Col>
           </Row>
         </>
       )}
