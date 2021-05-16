@@ -4,7 +4,7 @@ import "./index.css";
 import { Provider } from "react-redux";
 import store from "./store";
 import App from "./App";
-import "./bootstrap.min-1.css";
+import "./bootstrap.min-breezy.css";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(

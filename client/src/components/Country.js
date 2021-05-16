@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Row, Col, Container, Button } from "react-bootstrap";
 import { Chart } from "react-google-charts";
 import { ListCountries } from "../actions/countryActions";
 import Loader from "./Loader";
@@ -15,9 +16,10 @@ const Country = ({ match }) => {
 
   var data = [];
 
-  data = [["Year", "Value"]];
+  data = [["Year", "LiveStock Production"]];
+
   const getYears = () => {
-    var year = 2019;
+    var year = 2021;
     for (let k = 0; k < countries.length; k++) {
       //console.log(year + " = " + countries[k][year]);
       // console.log(countries[k]["Country Name"]);
@@ -28,7 +30,6 @@ const Country = ({ match }) => {
         for (let i = 0; i < 20; i++) {
           //console.log(year + " = " + countries[k][year]);
           data.push([year, parseInt(countries[k][year])]);
-
           year--;
         }
         console.log(data["Country Code"]);
@@ -54,26 +55,40 @@ const Country = ({ match }) => {
             <Col>
               <h2>Country Name: {countryname} </h2>
               {/* <h4>Country Code : {data["Country Code"]} </h4> */}
-              <h5>Period : 1960 - 2020</h5>
+              <h5>Period : 2001 - 2020</h5>
+            </Col>
+            <Col>
+              <Link to="/" style={{ float: "right", marginRight: "4rem", marginTop: "2rem" }}>
+                <Button>
+                  <i className="fas fa-arrow-left m-1"></i>
+                  Go Back
+                </Button>
+              </Link>
             </Col>
           </Row>
           <Row>
             <Col>
               <Chart
-                width={"1200px"}
+                width={"100%"}
                 height={"500px"}
                 chartType="LineChart"
                 loader={<div>Loading Chart</div>}
                 data={data}
                 options={{
                   hAxis: {
+                    format: "",
                     title: "Time (years)",
                   },
                   vAxis: {
-                    title: "values",
+                    title: "Live Stock (millions)",
                   },
                 }}
               />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <h3>Trend for the past 2 years</h3>
             </Col>
           </Row>
         </>

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Row, Col, Table, Container, Button } from "react-bootstrap";
+import { Row, Col, Table, Container, Button, Badge } from "react-bootstrap";
 import { ListCountries } from "../actions/countryActions";
 import Loader from "./Loader";
 import Message from "./Message";
@@ -13,24 +13,7 @@ const CountryListPage = () => {
 
   useEffect(() => {
     dispatch(ListCountries());
-    // console.log(getData(20, 2010));
   }, [dispatch]);
-
-  // const getYears = () => {
-  //   var year = 2019;
-
-  //   for (let k = 0; k < countries.length; k++) {
-  //     //console.log(year + " = " + countries[k][year]);
-  //     console.log(countries[k]["Country Name"]);
-  //     for (let i = 0; i < 60; i++) {
-  //       console.log(year + " = " + countries[k][year]);
-  //       year--;
-  //       if (year === 1959) {
-  //         year = 2019;
-  //       }
-  //     }
-  //   }
-  // };
 
   return (
     <Container>
@@ -50,16 +33,34 @@ const CountryListPage = () => {
               <thead>
                 <tr>
                   <th>Country Name</th>
-
+                  <th>Increase / Dercrease (2016 - 2018)</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 {countries &&
                   countries.map((country) =>
-                    country["Country Name"] === "South Africa" || country["Country Name"] === "Tanzania" || country["Country Name"] === "Zimbabwe" ? (
+                    country["Country Name"] === "South Africa" ||
+                    country["Country Name"] === "Tanzania" ||
+                    country["Country Name"] === "Zimbabwe" ||
+                    country["Country Name"] === "Nigeria" ||
+                    country["Country Name"] === "Brazil" ? (
                       <tr key={country["Country Name"]}>
                         <td>{country["Country Name"]}</td>
+
+                        <td>
+                          {country["2018"] - country["2016"] > 0 ? (
+                            <>
+                              <i className="fas fa-arrow-up m-3"></i>
+                              {(((country["2018"] - country["2016"]) / (country["2018"] + country["2016"])) * 100).toFixed(2)} %
+                            </>
+                          ) : (
+                            <>
+                              <i className="fas fa-arrow-down m-3"></i>
+                              {(((country["2018"] - country["2016"]) / (country["2018"] + country["2016"])) * 100).toFixed(2)} %
+                            </>
+                          )}
+                        </td>
                         <td>
                           <Link to={`/country/${country["Country Name"]}`}>
                             <Button variant="dark" className="btn-md">
