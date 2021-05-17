@@ -5,7 +5,7 @@ import { Navbar, Container } from "react-bootstrap";
 const Header = () => {
   return (
     <Fragment>
-      <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
+      <Navbar bg="dark" variant="light" expand="lg" collapseOnSelect>
         <Container>
           <Link to="/" style={{ textDecoration: "none" }}>
             <Navbar.Brand>PARANGELMATA</Navbar.Brand>
